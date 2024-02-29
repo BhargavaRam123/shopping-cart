@@ -1,95 +1,43 @@
+"use client";
 import Image from "next/image";
+import Navbar from "./components/navbar";
 import styles from "./page.module.css";
-
+import Cart from "./components/cart";
+import { add } from "./redux/slices/cartslice";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 export default function Home() {
+  const dispatch = useDispatch();
+  const [citems, setitems] = useState([]);
+  async function fetchapi() {
+    const res = await fetch("https://dummyjson.com/products");
+    const _items = await res.json();
+    setitems(_items.products);
+  }
+  console.log("value of items is", citems);
+  useEffect(() => {
+    fetchapi();
+  }, []);
+  function handleclick(obj) {
+    dispatch(add(obj));
+  }
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <div>
+      <Navbar />
+      <Cart />
+      <div className="maincontainer">
+        {citems.map((obj) => (
+          <div className="container">
+            <Image src={obj.thumbnail} height={250} width={250} />
+            <div className="title">{obj.title}</div>
+            <div className="rating">Rating:{obj.rating}</div>
+            <div className="price">₹{obj.price}</div>
+            <div className="add" onClick={handleclick}>
+              Add To Cart
+            </div>
+          </div>
+        ))}
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   );
 }
