@@ -3,7 +3,7 @@ import { BsCart4 } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { UseDispatch } from "react-redux";
 import { toggle } from "../redux/slices/cartslice";
-export default function Navbar() {
+export default function Navbar({setmodal}) {
   const { items, togglecart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   return (
@@ -11,9 +11,9 @@ export default function Navbar() {
       <div>Shopping Cart</div>
       <div
         id="cartbutton"
-        onClick={() => {
-          dispatch(toggle(true));
-        }}
+        onClick={()=>{
+          console.log("clicked man")
+          setmodal(true)}}
       >
         <BsCart4 style={{ height: "25px", width: "25px" }} />
         <span>{items.length}</span>
