@@ -84,3 +84,26 @@ html {
   right: 0px;
   background-color: rgba(255, 255, 255, 0.5);
 }
+.carticontainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.changecontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  width: 65px;
+  gap: 4px;
+  border: 1px solid rgb(227, 227, 204);
+}
+.boxshadow {
+  display: flex;
+  justify-content: center;
+  border: 1px solid rgb(227, 227, 204);
+  background-color: rgb(97, 97, 93);
+  height: 20px;
+  width: 24px;
+}
